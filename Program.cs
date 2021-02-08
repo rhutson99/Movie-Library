@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using NLog.Web;
 
 namespace MovieLibrary_HutsonRyan
 {
@@ -6,7 +8,16 @@ namespace MovieLibrary_HutsonRyan
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // create instance of Logger
+            string path = Directory.GetCurrentDirectory() + "\\nlog.config";
+            var logger = NLog.Web.NLogBuilder.ConfigureNLog(path).GetCurrentClassLogger();
+
+            logger.Info("Program started");
+
+
+             logger.Info("Program ended");
         }
+
+
     }
 }
