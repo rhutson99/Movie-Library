@@ -15,7 +15,7 @@ namespace MovieLibrary_HutsonRyan
 
             logger.Info("Program started");
 
-            string file = "ml-latest-small/movies.csv";
+            string file = "movies.csv";
             string input;
 
             do{
@@ -29,8 +29,10 @@ namespace MovieLibrary_HutsonRyan
             if (input == "1")
             {
                 Console.Clear();
-                if(File.Exists(file))
-                {
+
+                //Catch and handle FileNotFoundExecption
+
+                try{
                     StreamReader sr = new StreamReader(file);
                     while (!sr.EndOfStream)
                     {
@@ -38,29 +40,32 @@ namespace MovieLibrary_HutsonRyan
                         //read movie file
 
                         string line = sr.ReadLine();
-                        string[] arr = line.Split(",");
 
                         // display library
 
-                        foreach (string s in arr)
-                        {
-                            Console.WriteLine(s);
-                        }
+                        Console.WriteLine(line);
 
 
                     }
+                    sr.Close();
                 }
 
-                else
+                catch(FileNotFoundException)
                 {
-                    Console.WriteLine("File does not exist");
+                    Console.WriteLine("File not Found");
                 }
 
-            }
+                }
+            
 
             else if (input == "2")
             {
-                if(File.Exists(file))
+
+                //Catch and handle FileNotFoundExecption
+
+                //TO DO: Check for Duplicate entries
+
+                try
                 {
 
                 StreamWriter sw = new StreamWriter(file, append: true);
@@ -72,8 +77,10 @@ namespace MovieLibrary_HutsonRyan
                 Console.WriteLine("Please enter a movie title.");
                 string title = Console.ReadLine();
 
-                Console.WriteLine("Would you like to add a genre? (Y/N");
+                Console.WriteLine("Would you like to add a genre? (Y/N)");
                 string resp = Console.ReadLine().ToUpper();
+
+                //write movie entry with up to 3 genres
 
                 if(resp == "Y")
                 {
@@ -86,7 +93,7 @@ namespace MovieLibrary_HutsonRyan
                 {
                     string gen = Console.ReadLine();
                     genre.Add(gen);
-                    Console.WriteLine("Would you like to add another genre? Y/N");
+                    Console.WriteLine("Would you like to add another genre? (Y/N)");
                     string res = Console.ReadLine().ToUpper();
                     if (res != "Y") {break;}
                 }
@@ -97,34 +104,27 @@ namespace MovieLibrary_HutsonRyan
                     sw.Write("{0}|", d);
                 }
                 sw.WriteLine();
-                sw.Close();
 
                 }
+
+                //write movie entry with no genre
 
                 if(resp == "N")
                 {
 
                     string ge = "(No genre listed)";
                     sw.WriteLine($"{id},{title},{ge}");
-                    sw.Close();
 
                 }
 
-                //TO DO: handle execption if resp does not equal Y or N
-
-
+                sw.Close();
                 }
 
-                else
+                catch(FileNotFoundException)
                 {
-                    Console.WriteLine("File does not exist");
+                    Console.WriteLine("File Not Found");
                 }
-
-
-
-                
-                
-
+            
             }
             }while(input == "1" | input == "2");
 
