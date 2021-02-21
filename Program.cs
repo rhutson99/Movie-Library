@@ -39,11 +39,9 @@ namespace MovieLibrary_HutsonRyan
 
                         //read movie file
 
-                        string line = sr.ReadLine();
+                        Console.WriteLine(sr.ReadLine());
 
                         // display library
-
-                        Console.WriteLine(line);
 
 
                     }
